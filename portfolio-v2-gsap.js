@@ -1,124 +1,3 @@
-
-barba.init({
-  transitions: [
-    {
-      name: 'hero-to-detail',
-      to: {namespace: ['detail']},
-
-      async enter({ current, next }) {
-      	//window.scrollTo(0, 0);
-
-        // Set next containers to fixed so they can overlap
-        gsap.set(next.container, {position: 'fixed',top: 0,left: 0,width: '100%'});
-
-        // Prepare next container off-screen to the right
-        gsap.set(next.container, {x: '100%',opacity: 1,zIndex: 2});
-
-        // Animate both containers at the same time
-        const tl = gsap.timeline();
-
-        tl.to(current.container, {
-          x: '-100%',
-          duration: 1,
-          ease: 'power2.inOut'
-        }, 0) // Start at time 0
-
-        .to(next.container, {
-          x: '0%',
-          duration: 1,
-          ease: 'power2.inOut'
-        }, 0); // Start at same time as current
-        
-        tl.call(() => {window.scrollTo(0, 0);});
-        tl.set(next.container, {position: 'relative'});
-        
-        return tl;
-      },
-      
-      async afterEnter () {
-      	  document.fonts.ready.then(() => {
-          	HeaderAnim();
-          });
-      }
-    },
-    
-    //detail to hero
-    {
-    	name: 'detail-to-hero',
-      to: {namespace: ['home']},
-      async enter({ current, next }) {
-      	//window.scrollTo(0, 0);
-
-        // Set next containers to fixed so they can overlap
-        gsap.set(next.container, {position: 'fixed',top: 0,left: 0,width: '100%'});
-
-        // Prepare next container off-screen to the right
-        gsap.set(next.container, {x: '-100%',opacity: 1,zIndex: 2});
-
-        // Animate both containers at the same time
-        const tl = gsap.timeline();
-
-        tl.to(current.container, {
-          x: '100%',
-          duration: 1,
-          ease: 'power2.inOut'
-        }, 0) // Start at time 0
-
-        .to(next.container, {
-          x: '0%',
-          duration: 1,
-          ease: 'power2.inOut'
-        }, 0); // Start at same time as current
-        
-        tl.call(() => {window.scrollTo(0, 0);});
-        tl.set(next.container, {position: 'relative'});
-        
-        return tl;
-      }
-    
-    }
-    
-  ]
-});
-
-// Cleanup before leaving the page
-barba.hooks.beforeLeave(() => {
-	console.log("Home: killed all trigger animations");
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  gsap.globalTimeline.clear();
-  // TODO: remove other listeners or intervals if needed
-});
-
-// Run font-dependent animations on every page transition
-barba.hooks.after(() => {
-  document.fonts.ready.then(() => {
-    HomeIntroAnim();
-    HomeAboutAnim();
-    HomeAboutScrollerAnim();
-    HomeWorksAnim();
-    AnimWorksEntry();
-  });
-});
-
-// Also run it on initial load (first visit)
-document.addEventListener("DOMContentLoaded", () => {
-  document.fonts.ready.then(() => {
-    HomeIntroAnim();
-    NavbarOpenAnim();
-    NavbarScrollAnim();
-    HomeAboutAnim();
-    HomeAboutScrollerAnim();
-    Scroller2ndPanelAnim();
-    Scroller3rdPanelAnim();
-    HomeWorksAnim();
-    AnimWorksEntry();
-    SectionSwipeAnim();
-    ScrollTrigger.refresh();
-  });
-});
-
-
-
 /* INTRO-ANIM-HOME */
 function HomeIntroAnim () {
 
@@ -137,7 +16,7 @@ function HomeIntroAnim () {
 };
 
 
-
+/* NAVBAR-ANIMATIONS */
 function NavbarScrollAnim() {
 	const openIcon = document.querySelector("#navbarIcon");
 	let navbarScrollTl = gsap.timeline({paused: true, reversed: true});
@@ -254,6 +133,7 @@ function HomeAboutAnim () {
 
 
 
+/* SECTION-TRANSITION */
 
 function SectionSwipeAnim() {
 	let homeToAboutTl = gsap.timeline();
@@ -285,6 +165,7 @@ function SectionSwipeAnim() {
 }
 
 
+/* HORIZONTAL-SCROLLER */
 
 function HomeAboutScrollerAnim() {
   const horizontalSection = document.querySelector(".about_scroller");
