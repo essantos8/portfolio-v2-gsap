@@ -1,5 +1,5 @@
 //matchmedia listener for all of these
-let globalMatchMedia = gsap.matchMedia();
+//let globalMatchMedia = gsap.matchMedia();
 
 /* INTRO-ANIM-HOME */
 function HomeIntroAnim() {
@@ -420,3 +420,4 @@ function AnimWorksEntry() {
   });
 
 };
+
